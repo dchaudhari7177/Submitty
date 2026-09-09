@@ -12,6 +12,8 @@ inputs:
     default: '--test_only_grading'
 
 env:
+  INPUT_FLAGS: ${{ inputs.flags }}
+  INPUT_COURSES: ${{ inputs.courses }}
   PGPASSWORD: submitty_dbuser
   PHP_USER: submitty_php
   PHP_GROUP: submitty_php
@@ -163,7 +165,7 @@ runs:
       shell: bash
 
     - name: Set up sample course
-      run: sudo -E env "PATH=$PATH" python3 /usr/local/submitty/GIT_CHECKOUT/Submitty/.setup/bin/setup_sample_courses.py ${{ inputs.flags }} ${{ inputs.courses }}
+      run: sudo -E env "PATH=$PATH" python3 /usr/local/submitty/GIT_CHECKOUT/Submitty/.setup/bin/setup_sample_courses.py $INPUT_FLAGS $INPUT_COURSES
       shell: bash
 
     - name: Set up test suite

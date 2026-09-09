@@ -24,12 +24,12 @@ jobs:
       - name: Check for existing bot comments
         id: check-comments
         run: |
-          ISSUE_NUMBER=${{ github.event.issue.number }}
           BOT_COMMENT_EXISTS=$(gh issue view "$ISSUE_NUMBER" --json comments --jq '.comments[].body' | grep -q "Hi @$USERNAME," && echo "true" || echo "false")
           echo "bot_comment_exists=$BOT_COMMENT_EXISTS" >> $GITHUB_ENV
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.event.comment.user.login }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
 
       - name: First issue reply
         if: env.bot_comment_exists == 'false'
